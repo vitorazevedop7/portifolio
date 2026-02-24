@@ -41,7 +41,6 @@
 
 📖 **Repositório:** [github.com/vitorazevedop7/portfolio](https://github.com/vitorazevedop7/portfolio)
 
-🎨 **Wireframes (Figma):** [Visualizar Protótipos](#) *(adicionar link do Figma)*
 
 ---
 
@@ -98,7 +97,6 @@ Este projeto foi desenvolvido como parte da disciplina de Engenharia de Software
 |---|---|
 | [Vercel](https://vercel.com/) | Hospedagem e deploy contínuo (gratuito) |
 | [Git + GitHub](https://github.com/) | Versionamento e repositório |
-| [Figma](https://figma.com/) | Wireframes e prototipação |
 
 ---
 
@@ -141,7 +139,7 @@ Usuário → Vercel CDN → HTML Estático (SSG)
 
 ### 🔑 Variáveis de Ambiente
 
-Crie um arquivo `.env.local` na raiz do projeto:
+Será um arquivo `.env.local` na raiz do projeto:
 
 ```bash
 cp .env.example .env.local
