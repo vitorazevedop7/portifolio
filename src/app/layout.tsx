@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 import './globals.css'
-import Nav from '@/components/Nav'
+import ClientProviders from '@/components/ClientProviders'
 import Footer from '@/components/Footer'
 
 const dmSans = DM_Sans({
@@ -34,8 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${dmSans.variable} ${dmSerif.variable}`}>
       <body style={{ fontFamily: 'var(--font-sans, sans-serif)' }}>
-        <Nav />
-        {children}
+        <ClientProviders>
+          {children}
+        </ClientProviders>
         <Footer />
       </body>
     </html>

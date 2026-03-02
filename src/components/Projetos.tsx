@@ -1,13 +1,33 @@
-import { projects } from '@/data/projects'
+'use client'
+
+import { projectsPT, projectsEN } from '@/data/projects'
+import { useLanguage } from '@/contexts/LanguageContext'
+
+const content = {
+  pt: {
+    header: '02 — Projetos',
+    title: 'O que construí',
+    githubLink: 'Ver no GitHub →',
+  },
+  en: {
+    header: '02 — Projects',
+    title: 'What I built',
+    githubLink: 'View on GitHub →',
+  },
+}
 
 export default function Projetos() {
+  const { lang } = useLanguage()
+  const t = content[lang]
+  const projects = lang === 'pt' ? projectsPT : projectsEN
+
   return (
     <section id="projetos" style={{ borderTop: '1px solid #E4E2DE', padding: '96px max(24px, 5vw)', maxWidth: '1100px', margin: '0 auto' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2D6A4F', marginBottom: '12px' }}>
-        02 — Projetos
+        {t.header}
       </p>
       <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.15, color: '#1A1A18', marginBottom: '48px' }}>
-        O que construí
+        {t.title}
       </h2>
 
       <div style={{ position: 'relative' }}>
@@ -44,7 +64,7 @@ export default function Projetos() {
                   ))}
                 </div>
                 <a href={project.github} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: '#1A1A18', textDecoration: 'none', fontWeight: 500, borderBottom: '1px solid #E4E2DE', paddingBottom: '2px' }}>
-                  Ver no GitHub →
+                  {t.githubLink}
                 </a>
               </div>
             </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const bioPT = (
   <>
@@ -39,45 +39,34 @@ const bioEN = (
   </>
 )
 
-const skills = [
+const skillsPT = [
   { label: 'Front-end', tags: ['React', 'Next.js', 'HTML/CSS', 'JavaScript', 'TypeScript'] },
   { label: 'Back-end', tags: ['Node.js', 'Express', 'REST APIs', 'PostgreSQL'] },
   { label: 'Ferramentas', tags: ['Git & GitHub', 'Figma', 'Vercel', 'Docker'] },
 ]
 
+const skillsEN = [
+  { label: 'Front-end', tags: ['React', 'Next.js', 'HTML/CSS', 'JavaScript', 'TypeScript'] },
+  { label: 'Back-end', tags: ['Node.js', 'Express', 'REST APIs', 'PostgreSQL'] },
+  { label: 'Tools', tags: ['Git & GitHub', 'Figma', 'Vercel', 'Docker'] },
+]
+
 export default function Sobre() {
-  const [lang, setLang] = useState<'pt' | 'en'>('pt')
+  const { lang } = useLanguage()
+
+  const skills = lang === 'pt' ? skillsPT : skillsEN
 
   return (
     <section id="sobre" style={{ borderTop: '1px solid #E4E2DE', padding: '96px max(24px, 5vw)', maxWidth: '1100px', margin: '0 auto' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2D6A4F', marginBottom: '12px' }}>
-        01 — Sobre Mim
+        {lang === 'pt' ? '01 — Sobre Mim' : '01 — About Me'}
       </p>
       <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.15, color: '#1A1A18', marginBottom: '48px' }}>
-        Quem sou eu
+        {lang === 'pt' ? 'Quem sou eu' : 'Who I am'}
       </h2>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '64px', alignItems: 'start' }}>
         <div>
-          {/* Language toggle */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
-            {(['pt', 'en'] as const).map((l) => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                style={{
-                  fontSize: '0.75rem', letterSpacing: '0.06em', padding: '4px 12px',
-                  borderRadius: '100px', border: '1px solid',
-                  borderColor: lang === l ? '#1A1A18' : '#E4E2DE',
-                  background: lang === l ? '#1A1A18' : 'none',
-                  color: lang === l ? 'white' : '#7A7A72',
-                  cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s',
-                }}
-              >
-                {l.toUpperCase()}
-              </button>
-            ))}
-          </div>
           {lang === 'pt' ? bioPT : bioEN}
         </div>
 

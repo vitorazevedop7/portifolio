@@ -1,13 +1,31 @@
-import { experiences } from '@/data/experiences'
+'use client'
+
+import { experiencesPT, experiencesEN } from '@/data/experiences'
+import { useLanguage } from '@/contexts/LanguageContext'
+
+const content = {
+  pt: {
+    header: '03 — Experiências',
+    title: 'Trajetória',
+  },
+  en: {
+    header: '03 — Experience',
+    title: 'Journey',
+  },
+}
 
 export default function Experiencias() {
+  const { lang } = useLanguage()
+  const t = content[lang]
+  const experiences = lang === 'pt' ? experiencesPT : experiencesEN
+
   return (
     <section id="experiencias" style={{ borderTop: '1px solid #E4E2DE', padding: '96px max(24px, 5vw)', maxWidth: '1100px', margin: '0 auto' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2D6A4F', marginBottom: '12px' }}>
-        03 — Experiências
+        {t.header}
       </p>
       <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.15, color: '#1A1A18', marginBottom: '48px' }}>
-        Trajetória
+        {t.title}
       </h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

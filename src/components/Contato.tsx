@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
@@ -11,17 +12,62 @@ const socialLinks = [
   { icon: '💬', label: 'WhatsApp', href: 'https://wa.me/55' },
 ]
 
+const content = {
+  pt: {
+    header: '04 — Contato',
+    title: 'Vamos conversar',
+    subtitle: 'Aberto a oportunidades',
+    description: 'Estou disponível para projetos freelance, posições full-stack e oportunidades internacionais.',
+    nameLabel: 'Nome',
+    namePlaceholder: 'Seu nome',
+    nameRequired: 'Nome é obrigatório',
+    emailLabel: 'E-mail',
+    emailPlaceholder: 'seu@email.com',
+    emailRequired: 'E-mail é obrigatório',
+    emailInvalid: 'E-mail inválido',
+    messageLabel: 'Mensagem',
+    messagePlaceholder: 'Escreva sua mensagem...',
+    messageRequired: 'Mensagem é obrigatória',
+    submit: 'Enviar mensagem →',
+    sending: 'Enviando...',
+    successMessage: 'Mensagem enviada! Em breve retorno. ✓',
+    errorMessage: 'Erro ao enviar. Tente novamente ou me contate por e-mail.',
+  },
+  en: {
+    header: '04 — Contact',
+    title: "Let's talk",
+    subtitle: 'Open to opportunities',
+    description: 'Available for freelance projects, full-stack positions, and international opportunities.',
+    nameLabel: 'Name',
+    namePlaceholder: 'Your name',
+    nameRequired: 'Name is required',
+    emailLabel: 'Email',
+    emailPlaceholder: 'your@email.com',
+    emailRequired: 'Email is required',
+    emailInvalid: 'Invalid email',
+    messageLabel: 'Message',
+    messagePlaceholder: 'Write your message...',
+    messageRequired: 'Message is required',
+    submit: 'Send message →',
+    sending: 'Sending...',
+    successMessage: "Message sent! I'll get back to you soon. ✓",
+    errorMessage: 'Error sending message. Please try again or contact me via email.',
+  },
+}
+
 export default function Contato() {
+  const { lang } = useLanguage()
+  const t = content[lang]
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [errors, setErrors] = useState<Partial<typeof form>>({})
   const [status, setStatus] = useState<Status>('idle')
 
   function validate() {
     const e: Partial<typeof form> = {}
-    if (!form.name.trim()) e.name = 'Nome é obrigatório'
-    if (!form.email.trim()) e.email = 'E-mail é obrigatório'
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'E-mail inválido'
-    if (!form.message.trim()) e.message = 'Mensagem é obrigatória'
+    if (!form.name.trim()) e.name = t.nameRequired
+    if (!form.email.trim()) e.email = t.emailRequired
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = t.emailInvalid
+    if (!form.message.trim()) e.message = t.messageRequired
     return e
   }
 
@@ -57,20 +103,20 @@ export default function Contato() {
   return (
     <section id="contato" style={{ borderTop: '1px solid #E4E2DE', padding: '96px max(24px, 5vw)', maxWidth: '1100px', margin: '0 auto' }}>
       <p style={{ fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#2D6A4F', marginBottom: '12px' }}>
-        04 — Contato
+        {t.header}
       </p>
       <h2 style={{ fontFamily: 'Georgia, serif', fontSize: 'clamp(2rem, 4vw, 3rem)', letterSpacing: '-0.03em', lineHeight: 1.15, color: '#1A1A18', marginBottom: '48px' }}>
-        Vamos conversar
+        {t.title}
       </h2>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '80px', alignItems: 'start' }}>
         {/* Social links */}
         <div>
           <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '1.6rem', marginBottom: '16px', letterSpacing: '-0.03em', color: '#1A1A18' }}>
-            Aberto a oportunidades
+            {t.subtitle}
           </h3>
           <p style={{ color: '#7A7A72', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '32px' }}>
-            Estou disponível para projetos freelance, posições full-stack e oportunidades internacionais.
+            {t.description}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {socialLinks.map((s) => (
@@ -93,10 +139,10 @@ export default function Contato() {
           {/* Name */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#7A7A72', fontWeight: 500 }}>
-              Nome
+              {t.nameLabel}
             </label>
             <input
-              type="text" placeholder="Seu nome" value={form.name}
+              type="text" placeholder={t.namePlaceholder} value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               style={inputStyle('name')}
             />
@@ -106,10 +152,10 @@ export default function Contato() {
           {/* Email */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#7A7A72', fontWeight: 500 }}>
-              E-mail
+              {t.emailLabel}
             </label>
             <input
-              type="email" placeholder="seu@email.com" value={form.email}
+              type="email" placeholder={t.emailPlaceholder} value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               style={inputStyle('email')}
             />
@@ -119,10 +165,10 @@ export default function Contato() {
           {/* Message */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '0.78rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: '#7A7A72', fontWeight: 500 }}>
-              Mensagem
+              {t.messageLabel}
             </label>
             <textarea
-              placeholder="Escreva sua mensagem..." value={form.message} rows={5}
+              placeholder={t.messagePlaceholder} value={form.message} rows={5}
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               style={inputStyle('message')}
             />
@@ -140,14 +186,14 @@ export default function Contato() {
               alignSelf: 'flex-start', transition: 'background 0.2s',
             }}
           >
-            {status === 'loading' ? 'Enviando...' : 'Enviar mensagem →'}
+            {status === 'loading' ? t.sending : t.submit}
           </button>
 
           {status === 'success' && (
-            <p style={{ fontSize: '0.85rem', color: '#2D6A4F' }}>Mensagem enviada! Em breve retorno. ✓</p>
+            <p style={{ fontSize: '0.85rem', color: '#2D6A4F' }}>{t.successMessage}</p>
           )}
           {status === 'error' && (
-            <p style={{ fontSize: '0.85rem', color: '#e53e3e' }}>Erro ao enviar. Tente novamente ou me contate por e-mail.</p>
+            <p style={{ fontSize: '0.85rem', color: '#e53e3e' }}>{t.errorMessage}</p>
           )}
         </form>
       </div>
