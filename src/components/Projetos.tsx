@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import Image from 'next/image'
 import { projectsPT, projectsEN } from '@/data/projects'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -8,12 +10,85 @@ const content = {
     header: '02 — Projetos',
     title: 'O que construí',
     githubLink: 'Ver no GitHub →',
+    liveLink: 'Ver site ao vivo →',
+    clientBadge: '✦ Cliente real',
   },
   en: {
     header: '02 — Projects',
     title: 'What I built',
     githubLink: 'View on GitHub →',
+    liveLink: 'View live site →',
+    clientBadge: '✦ Real client',
   },
+}
+
+const projectImages: Record<number, string[]> = {
+  1: [
+    '/imgs/todo/todo-login.webp',
+    '/imgs/todo/todo-tasks.webp',
+    '/imgs/todo/todo-new-task.webp',
+    '/imgs/todo/todo-edit-task.webp',
+  ],
+  2: [
+    '/imgs/barbearia/barbearia-dashboard.webp',
+    '/imgs/barbearia/barbearia-agendamento.webp',
+    '/imgs/barbearia/barbearia-gerenciar_horarios.webp',
+  ],
+  3: [
+    '/imgs/gutour/gutour-tela.gif',
+  ],
+}
+
+function ProjectGallery({ images, name }: { images: string[]; name: string }) {
+  const [current, setCurrent] = useState(0)
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '260px', background: '#0a0a0a', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Image
+        src={images[current]}
+        alt={`${name} - tela ${current + 1}`}
+        fill
+        style={{ objectFit: 'contain', padding: '12px' }}
+        unoptimized
+      />
+
+      {/* Dots */}
+      {images.length > 1 && (
+        <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              style={{
+                width: i === current ? '20px' : '8px',
+                height: '8px',
+                borderRadius: '100px',
+                border: 'none',
+                cursor: 'pointer',
+                background: i === current ? 'white' : 'rgba(255,255,255,0.5)',
+                transition: 'all 0.2s',
+                padding: 0,
+              }}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Arrows */}
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={() => setCurrent((c) => (c - 1 + images.length) % images.length)}
+            style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '14px' }}
+          >‹</button>
+          <button
+            onClick={() => setCurrent((c) => (c + 1) % images.length)}
+            style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontSize: '14px' }}
+          >›</button>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default function Projetos() {
@@ -44,15 +119,20 @@ export default function Projetos() {
             </p>
 
             <div style={{ background: '#FFFFFF', border: '1px solid #E4E2DE', borderRadius: '16px', overflow: 'hidden' }}>
-              {/* Image area */}
-              <div style={{ width: '100%', height: '200px', background: project.bgGradient, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
-                {project.emoji}
-              </div>
+              {/* Gallery */}
+              <ProjectGallery images={projectImages[project.id]} name={project.name} />
 
               <div style={{ padding: '24px' }}>
                 <h3 style={{ fontFamily: 'Georgia, serif', fontSize: '1.4rem', marginBottom: '8px', letterSpacing: '-0.02em', color: '#1A1A18' }}>
                   {project.name}
                 </h3>
+
+                {(project.id === 2 || project.id === 3) && (
+                  <span style={{ display: 'inline-block', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', background: '#FFF3CD', color: '#92620A', padding: '3px 10px', borderRadius: '100px', marginBottom: '10px' }}>
+                    {t.clientBadge}
+                  </span>
+                )}
+
                 <p style={{ color: '#7A7A72', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '16px' }}>
                   {project.description}
                 </p>
@@ -63,9 +143,18 @@ export default function Projetos() {
                     </span>
                   ))}
                 </div>
-                <a href={project.github} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: '#1A1A18', textDecoration: 'none', fontWeight: 500, borderBottom: '1px solid #E4E2DE', paddingBottom: '2px' }}>
-                  {t.githubLink}
-                </a>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <a href={project.github} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: '0.82rem', color: '#1A1A18', textDecoration: 'none', fontWeight: 500, borderBottom: '1px solid #E4E2DE', paddingBottom: '2px' }}>
+                    {t.githubLink}
+                  </a>
+                  {project.id === 3 && (
+                    <a href="https://gutour.vercel.app" target="_blank" rel="noopener noreferrer"
+                      style={{ fontSize: '0.82rem', color: '#2D6A4F', textDecoration: 'none', fontWeight: 500, borderBottom: '1px solid #2D6A4F', paddingBottom: '2px' }}>
+                      {t.liveLink}
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
