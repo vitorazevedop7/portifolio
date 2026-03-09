@@ -9,7 +9,7 @@ const socialLinks = [
   { icon: '✉️', label: 'vitorazevedo.p7@gmail.com', href: 'mailto:vitorazevedo.p7@gmail.com' },
   { icon: '💼', label: 'linkedin.com/in/vitor-azevedo', href: 'https://www.linkedin.com/in/vitor-azevedo-293609343/' },
   { icon: '🐙', label: 'github.com/vitorazevedop7', href: 'https://github.com/vitorazevedop7' },
-  { icon: '💬', label: 'WhatsApp', href: 'https://wa.me/55' },
+  { icon: '💬', label: 'WhatsApp +55 31 984770950', href: 'https://wa.me/5531984770950' },
 ]
 
 const content = {
